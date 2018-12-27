@@ -24,6 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "TM16XX.h"
 #include "string.h"
+#define DEFINTENSITY ((byte)7)
 
 TM16XX::TM16XX(byte dataPin, byte clockPin, byte strobePin, byte displays, boolean activateDisplay,
 	byte intensity)
@@ -41,7 +42,7 @@ TM16XX::TM16XX(byte dataPin, byte clockPin, byte strobePin, byte displays, boole
   digitalWrite(clockPin, HIGH);
 
   sendCommand(0x40);
-  sendCommand(0x80 | (activateDisplay ? 8 : 0) | min(7, intensity));
+  sendCommand((byte)(0x80 | (activateDisplay ? 8 : 0) | min(DEFINTENSITY, intensity)));
 
   digitalWrite(strobePin, LOW);
   send(0xC0);
@@ -50,10 +51,9 @@ TM16XX::TM16XX(byte dataPin, byte clockPin, byte strobePin, byte displays, boole
   }
   digitalWrite(strobePin, HIGH);
 }
-
 void TM16XX::setupDisplay(boolean active, byte intensity)
 {
-  sendCommand(0x80 | (active ? 8 : 0) | min(7, intensity));
+  sendCommand((byte)(0x80 | (active ? 8 : 0) | min(DEFINTENSITY, intensity)));
 
   // necessary for the TM1640
   digitalWrite(strobePin, LOW);
