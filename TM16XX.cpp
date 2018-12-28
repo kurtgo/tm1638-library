@@ -194,6 +194,21 @@ byte TM16XX::receive()
   
   return temp;
 }
+void TM16XX::setText(String &str)
+{
+	byte pos = 0;
+        for (int i = 0; i < 8; i++) {
+          if (str[i] != '\0' && str[i] != '.') {
+            if (str[i] == 0xb0) {
+              sendChar(pos, (byte)0b01100011,false);
+            } else {
+               sendChar(pos, FONT_DEFAULT[str[i] - 32], str[i+1] == '.');
+            }
+           ++pos;
+          }
+          if (str[i] == '\0') break;
+         }
+}
 
 #if !defined(ARDUINO) || ARDUINO < 100
 // empty implementation instead of pure virtual for older Arduino IDE

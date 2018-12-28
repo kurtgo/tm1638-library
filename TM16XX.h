@@ -48,6 +48,7 @@ class TM16XX
     virtual void clearDisplayDigit(byte pos, boolean dot);
     /** Set the display to the values (left to right) */
     virtual void setDisplay(const byte values[], unsigned int length = 8);
+    virtual void setText(String &str);
     /** Clear the display */
 	virtual void clearDisplay();
 
